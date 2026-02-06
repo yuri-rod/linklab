@@ -1,0 +1,13 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: linklab
+servers: 1
+agents: 1
+ports:
+  - port: 8081:30080
+    nodeFilters:
+      - loadbalancer
+  - port: 8082:30081
+    nodeFilters:
+      - loadbalancer

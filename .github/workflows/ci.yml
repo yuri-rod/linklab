@@ -1,0 +1,62 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      - run: cd api && go test ./...
+
+  test-worker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          cd worker
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m compileall .
+
+  build-and-push:
+    needs: [test-api, test-worker]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - uses: aws-actions/amazon-ecr-login@v2
+      - name: Build and push API
+        run: |
+          docker build -t $ECR_REGISTRY/linklab-api:${{ github.sha }} ./api
+          docker push $ECR_REGISTRY/linklab-api:${{ github.sha }}
+      - name: Build and push Worker
+        run: |
+          docker build -t $ECR_REGISTRY/linklab-worker:${{ github.sha }} ./worker
+          docker push $ECR_REGISTRY/linklab-worker:${{ github.sha }}
+      - name: Update Helm values (dev)
+        run: |
+          sed -i "s/tag: .*/tag: ${{ github.sha }}/" k8s/helm/linklab/values-dev.yaml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add k8s/helm/linklab/values-dev.yaml
+          git commit -m "deploy: ${{ github.sha }}" || echo "no changes"
+          git push || echo "skip push (no auth)"

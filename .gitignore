@@ -1,0 +1,19 @@
+# Go
+api/bin
+
+# Python
+__pycache__/
+*.pyc
+
+# Terraform
+*.tfstate*
+.terraform/
+.terragrunt-cache/
+
+# Docker
+pgdata
+.env
+
+# IDEs
+.idea/
+.vscode/

@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS links (
+  code VARCHAR(10) PRIMARY KEY,
+  url TEXT NOT NULL,
+  created_at TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS clicks (
+  id SERIAL PRIMARY KEY,
+  code VARCHAR(10) REFERENCES links(code),
+  clicked_at TIMESTAMP
+);

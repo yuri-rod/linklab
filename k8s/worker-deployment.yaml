@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linklab-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linklab-worker
+  template:
+    metadata:
+      labels:
+        app: linklab-worker
+    spec:
+      containers:
+        - name: worker
+          image: ${ECR_REGISTRY:-REPLACE_ECR}/linklab-worker:v1
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: linklab-secrets
+                  key: database-url
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: linklab-secrets
+                  key: redis-url
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: linklab-worker-health
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: ping
+              image: curlimages/curl:8.8.0
+              args: ["curl", "http://linklab-api/health"]

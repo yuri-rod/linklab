@@ -1,0 +1,18 @@
+groups:
+  - name: linklab
+    rules:
+      - alert: HighRedirectLatency
+        expr: |
+          histogram_quantile(0.95, rate(linklab_redirect_duration_seconds_bucket[5m])) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Latência de redirect acima de 100ms (p95)"
+      - alert: APIDown
+        expr: up{job="linklab-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "API fora do ar"

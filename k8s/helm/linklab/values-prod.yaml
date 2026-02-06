@@ -1,0 +1,8 @@
+api:
+  image: "REPLACE_ECR/linklab-api"
+  tag: "prod"
+  replicas: 3
+worker:
+  image: "REPLACE_ECR/linklab-worker"
+  tag: "prod"
+  replicas: 2

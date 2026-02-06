@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "linklab.fullname" . }}-worker
+spec:
+  replicas: {{ .Values.worker.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "linklab.fullname" . }}-worker
+  template:
+    metadata:
+      labels:
+        app: {{ include "linklab.fullname" . }}-worker
+    spec:
+      containers:
+        - name: worker
+          image: "{{ .Values.worker.image }}:{{ .Values.worker.tag }}"
+          imagePullPolicy: {{ .Values.worker.imagePullPolicy }}
+          env:
+            - name: DATABASE_URL
+              value: {{ .Values.worker.env.databaseURL | quote }}
+            - name: REDIS_URL
+              value: {{ .Values.worker.env.redisURL | quote }}
+          resources:
+            requests:
+              cpu: {{ .Values.worker.resources.requests.cpu }}
+              memory: {{ .Values.worker.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.worker.resources.limits.cpu }}
+              memory: {{ .Values.worker.resources.limits.memory }}

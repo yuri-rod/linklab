@@ -1,0 +1,32 @@
+api:
+  image: "linklab-api"
+  tag: "local"
+  imagePullPolicy: IfNotPresent
+  replicas: 1
+  service:
+    type: NodePort
+    port: 80
+    nodePort: 30080
+  env:
+    databaseURL: "postgres://linklab:linklab123@linklab-postgres:5432/linklab?sslmode=disable"
+    redisURL: "redis://linklab-redis:6379"
+
+worker:
+  image: "linklab-worker"
+  tag: "local"
+  imagePullPolicy: IfNotPresent
+  replicas: 1
+  env:
+    databaseURL: "postgres://linklab:linklab123@linklab-postgres:5432/linklab?sslmode=disable"
+    redisURL: "redis://linklab-redis:6379"
+
+postgres:
+  enabled: true
+  image: postgres:16-alpine
+  database: linklab
+  username: linklab
+  password: linklab123
+
+redis:
+  enabled: true
+  image: redis:7-alpine

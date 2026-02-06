@@ -1,0 +1,5 @@
+type: S3
+config:
+  bucket: linklab-thanos-metrics
+  endpoint: s3.us-east-1.amazonaws.com
+  region: us-east-1

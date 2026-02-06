@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LinkLab | Frontend Local</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-a"></div>
+    <div class="bg-shape shape-b"></div>
+
+    <main class="app">
+      <header class="hero reveal">
+        <p class="badge">LAB SRE / DEVOPS</p>
+        <h1>LinkLab Frontend</h1>
+        <p>
+          Interface local para encurtar URLs e consultar analytics sem depender de AWS.
+        </p>
+      </header>
+
+      <section class="panel reveal reveal-delay-1">
+        <div class="panel-title-row">
+          <h2>Criar link curto</h2>
+          <div id="healthBadge" class="health health-pending">API: verificando...</div>
+        </div>
+        <form id="shortenForm" class="form-row">
+          <label for="urlInput">URL longa</label>
+          <div class="input-row">
+            <input id="urlInput" type="url" placeholder="https://exemplo.com/artigo" required />
+            <button type="submit">Encurtar</button>
+          </div>
+        </form>
+        <div id="shortenResult" class="result hidden"></div>
+      </section>
+
+      <section class="panel reveal reveal-delay-2">
+        <h2>Consultar stats</h2>
+        <form id="statsForm" class="form-row">
+          <label for="codeInput">Código curto</label>
+          <div class="input-row">
+            <input id="codeInput" type="text" placeholder="abc123" required />
+            <button type="submit">Buscar</button>
+          </div>
+        </form>
+        <pre id="statsResult" class="stats-box hidden"></pre>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+  </html>

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: linklab
+version: 0.1.0
+description: LinkLab API + Worker
+appVersion: "1.0"

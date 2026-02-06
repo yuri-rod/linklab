@@ -1,0 +1,29 @@
+---
+- name: Configuração base do servidor
+  hosts: all
+  become: yes
+  tasks:
+    - name: Instala pacotes essenciais
+      package:
+        name:
+          - docker
+          - amazon-cloudwatch-agent
+          - jq
+          - htop
+        state: present
+    - name: Inicia Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+    - name: Configura CloudWatch Agent (placeholder)
+      copy:
+        content: "{}"
+        dest: /opt/aws/amazon-cloudwatch-agent/etc/cloudwatch-config.json
+      notify: restart cloudwatch agent
+  handlers:
+    - name: restart cloudwatch agent
+      systemd:
+        name: amazon-cloudwatch-agent
+        state: restarted
+        enabled: yes
