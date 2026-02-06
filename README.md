@@ -48,6 +48,7 @@ Arquivo `docker-compose.yml` fornece o stack local completo. Imagens são constr
 
 ## Documentacao PT-BR
 - Guia principal: `docs/README.pt-BR.md`
+- Guia da aplicacao: `docs/GUIA-APP.pt-BR.md`
 - Guia Git: `docs/GIT-REPO.pt-BR.md`
 
 ## Mapeamento AWS -> Local

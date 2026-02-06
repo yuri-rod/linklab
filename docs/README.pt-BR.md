@@ -8,6 +8,10 @@ Este repositorio contem um lab pratico de SRE/DevOps com:
 - Perfis Kubernetes locais com `kind` e `k3d`
 - Fluxo GitOps local com Argo CD
 
+Guias:
+- Uso da aplicacao: `docs/GUIA-APP.pt-BR.md`
+- Repositorio Git: `docs/GIT-REPO.pt-BR.md`
+
 ## 1. Subir tudo local com Docker
 
 ```bash
