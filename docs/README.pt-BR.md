@@ -9,6 +9,7 @@ Este repositorio contem um lab pratico de SRE/DevOps com:
 - Fluxo GitOps local com Argo CD
 
 Guias:
+- Onboarding rapido (5 min): `docs/ONBOARDING-5MIN.pt-BR.md`
 - Uso da aplicacao: `docs/GUIA-APP.pt-BR.md`
 - Repositorio Git: `docs/GIT-REPO.pt-BR.md`
 
