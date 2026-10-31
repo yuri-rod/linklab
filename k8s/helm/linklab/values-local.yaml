@@ -17,7 +17,7 @@ worker:
   imagePullPolicy: IfNotPresent
   replicas: 1
   env:
-    databaseURL: "postgres://linklab:linklab123@linklab-postgres:5432/linklab?sslmode=disable"
+    databaseURL: "postgres://linklab:CHANGEME_LOCAL_PASSWORD@linklab-postgres:5432/linklab?sslmode=disable"
     redisURL: "redis://linklab-redis:6379"
 
 postgres:
@@ -25,7 +25,7 @@ postgres:
   image: postgres:16-alpine
   database: linklab
   username: linklab
-  password: linklab123
+  password: "CHANGEME_LOCAL_PASSWORD"
 
 redis:
   enabled: true

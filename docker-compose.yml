@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: linklab
       POSTGRES_USER: linklab
-      POSTGRES_PASSWORD: linklab123
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-CHANGEME_LOCAL_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -48,7 +48,7 @@ services:
   api:
     build: ./api
     environment:
-      DATABASE_URL: postgres://linklab:linklab123@postgres:5432/linklab?sslmode=disable
+      DATABASE_URL: ${DATABASE_URL:-postgres://linklab:CHANGEME_LOCAL_PASSWORD@postgres:5432/linklab?sslmode=disable}
       REDIS_URL: redis://redis:6379
     ports:
       - "8080:8080"
@@ -61,7 +61,7 @@ services:
   worker:
     build: ./worker
     environment:
-      DATABASE_URL: postgres://linklab:linklab123@postgres:5432/linklab?sslmode=disable
+      DATABASE_URL: ${DATABASE_URL:-postgres://linklab:CHANGEME_LOCAL_PASSWORD@postgres:5432/linklab?sslmode=disable}
       REDIS_URL: redis://redis:6379
     depends_on:
       postgres:

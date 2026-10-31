@@ -39,7 +39,7 @@ postgres:
   image: postgres:16-alpine
   database: linklab
   username: linklab
-  password: linklab123
+  password: "CHANGEME_LOCAL_PASSWORD"
 
 redis:
   enabled: false
