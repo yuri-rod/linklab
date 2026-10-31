@@ -20,14 +20,25 @@ if [ -f "$TERRAGRUNT_FILE" ]; then
     fi
 fi
 
-# 2. Docker Compose fail-closed validation
+# 2. Docker Compose fail-closed validation and localhost binding
 DOCKER_COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
 if [ -f "$DOCKER_COMPOSE_FILE" ]; then
     if grep -E 'POSTGRES_PASSWORD:\s*\$\{POSTGRES_PASSWORD:\?' "$DOCKER_COMPOSE_FILE" >/dev/null \
-       && grep -E 'DATABASE_URL:\s*\$\{DATABASE_URL:\?' "$DOCKER_COMPOSE_FILE" >/dev/null; then
+       && grep -E 'DATABASE_URL:\s*\$\{DATABASE_URL:\?' "$DOCKER_COMPOSE_FILE" >/dev/null \
+       && grep -E 'GF_SECURITY_ADMIN_PASSWORD=\$\{GRAFANA_ADMIN_PASSWORD:\?' "$DOCKER_COMPOSE_FILE" >/dev/null; then
         echo "PASS: Docker Compose enforces required environment variables with :? (fail closed)"
     else
         echo "FAIL: Docker Compose does not enforce required environment variables"
+        ERRORS=$((ERRORS + 1))
+    fi
+
+    if grep -E '^\s*-\s*"[0-9]+:[0-9]+"' "$DOCKER_COMPOSE_FILE" >/dev/null; then
+        echo "FAIL: Docker Compose exposes ports to all interfaces (should bind to 127.0.0.1)"
+        ERRORS=$((ERRORS + 1))
+    elif grep -E '^\s*-\s*"127\.0\.0\.1:[0-9]+:[0-9]+"' "$DOCKER_COMPOSE_FILE" >/dev/null; then
+        echo "PASS: Docker Compose binds exposed ports to 127.0.0.1 loopback interface"
+    else
+        echo "FAIL: Docker Compose ports configuration check failed"
         ERRORS=$((ERRORS + 1))
     fi
 fi
