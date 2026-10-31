@@ -14,6 +14,6 @@ inputs = {
   identifier = "linklab-dev"
   db_name    = "linklab"
   username   = "linklab"
-  password   = get_env("DB_PASSWORD", "CHANGEME_DEV_PASSWORD")
+  password   = get_env("DB_PASSWORD")
   subnet_ids = dependency.vpc.outputs.private_subnet_ids
 }

@@ -8,7 +8,7 @@ api:
     port: 80
     nodePort: 30080
   env:
-    databaseURL: "postgres://linklab:linklab123@linklab-postgres:5432/linklab?sslmode=disable"
+    databaseURL: "postgres://linklab:CHANGEME_LOCAL_PASSWORD@linklab-postgres:5432/linklab?sslmode=disable"
     redisURL: "redis://linklab-redis:6379"
 
 worker:

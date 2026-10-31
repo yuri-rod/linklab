@@ -15,7 +15,7 @@ api:
     port: 80
     nodePort: null
   env:
-    databaseURL: "postgres://linklab:linklab123@postgres:5432/linklab?sslmode=disable"
+    databaseURL: ""
     redisURL: "redis://redis:6379"
 
 worker:
@@ -31,7 +31,7 @@ worker:
       cpu: 300m
       memory: 256Mi
   env:
-    databaseURL: "postgres://linklab:linklab123@postgres:5432/linklab?sslmode=disable"
+    databaseURL: ""
     redisURL: "redis://redis:6379"
 
 postgres:
@@ -39,7 +39,7 @@ postgres:
   image: postgres:16-alpine
   database: linklab
   username: linklab
-  password: "CHANGEME_LOCAL_PASSWORD"
+  password: ""
 
 redis:
   enabled: false
