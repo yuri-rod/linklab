@@ -18,7 +18,7 @@ spec:
           imagePullPolicy: {{ .Values.worker.imagePullPolicy }}
           env:
             - name: DATABASE_URL
-              value: {{ .Values.worker.env.databaseURL | quote }}
+              value: {{ required "A valid databaseURL (.Values.worker.env.databaseURL) is required and cannot be empty" .Values.worker.env.databaseURL | quote }}
             - name: REDIS_URL
               value: {{ .Values.worker.env.redisURL | quote }}
           resources:

@@ -20,7 +20,7 @@ spec:
             - containerPort: 8080
           env:
             - name: DATABASE_URL
-              value: {{ .Values.api.env.databaseURL | quote }}
+              value: {{ required "A valid databaseURL (.Values.api.env.databaseURL) is required and cannot be empty" .Values.api.env.databaseURL | quote }}
             - name: REDIS_URL
               value: {{ .Values.api.env.redisURL | quote }}
           resources:

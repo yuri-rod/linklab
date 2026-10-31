@@ -3,7 +3,7 @@ api:
   tag: "dev"
   replicas: 1
   env:
-    databaseURL: "postgres://linklab:linklab123@postgres:5432/linklab?sslmode=disable"
+    databaseURL: ""
     redisURL: "redis://redis:6379"
 worker:
   image: "REPLACE_ECR/linklab-worker"
